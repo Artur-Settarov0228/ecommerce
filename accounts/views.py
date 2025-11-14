@@ -25,6 +25,50 @@ class AccountView(View):
             user.save()
 
             return JsonResponse(data={'message': 'user created.'}, status=201)
+        
+    def get(self, request: HttpRequest, username: str) -> JsonResponse:
+        try:
+            user = User.objects.get(username=username)
+
+            return JsonResponse({
+                'id': user.id,
+                'username': user.username,
+                'password': user.password,
+                'email': user.email,
+                'phone': user.phone,
+                'profile': {
+                    'id': user.profile.id,
+                    'first_name': user.profile.first_name,
+                    'last_name': user.profile.last_name,
+                    'bio': user.profile.bio,
+                    'avatar': user.profile.avatar.url,
+                }
+            })
+        
+        except User.DoesNotExist:
+            return JsonResponse(data={'messsage': 'user does not exists.'}, status=400)
 
 
-# signals
+class ProfileView(View):
+
+    def post(self, request: HttpRequest) -> JsonResponse:
+        username = request.POST.get('username')
+        avatar = request.FILES.get('avatar')
+
+        try:
+            user = User.objects.get(username=username)
+
+            user.profile.avatar = avatar
+            user.profile.save()
+
+            return JsonResponse(data={'message': 'avatar created.'}, status=201)
+        
+        except User.DoesNotExist:
+            return JsonResponse(data={'messsage': 'user does not exists.'}, status=400)
+        
+
+    def put(self, request: HttpRequest) -> JsonResponse:
+        pass
+
+
+    
