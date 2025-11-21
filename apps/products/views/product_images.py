@@ -7,7 +7,7 @@ from ..models import Product, ProductImage
 
 class ProductImageListView(View):
     def get(self, request: HttpRequest) -> JsonResponse:
-        images = [image.to_dict(request) for image in ProductImage.objects.all()]
+        images = [image.to_dict() for image in ProductImage.objects.all()]
         return JsonResponse({'images': images})
 
     def post(self, request: HttpRequest) -> JsonResponse:
