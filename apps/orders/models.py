@@ -1,7 +1,7 @@
 from django.db import models
 
-from accounts.models import User
-from products.models import Product
+from apps.accounts.models import User
+from apps.products.models import Product
 
 
 class Order(models.Model):
