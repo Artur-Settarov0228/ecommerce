@@ -10,4 +10,15 @@ from ..models import Order, OrderItem
 class OrderPaymentStatusView(View):
 
     def patch(self, request: HttpRequest, pk: int) -> JsonResponse:
-        pass
+        
+        orders_pay_status = Order.OrderPaymentStatus
+        order = get_object_or_404(Order, pk=pk)
+        data = json.loads(request.body)
+
+        new_pay_status = data.get("payment_status")
+        if new_pay_status not in orders_pay_status.values:
+            return JsonResponse({"Error": "Invalid status"}, status=400)
+        else:
+            order.payment_status = new_pay_status
+            order.save()
+            return JsonResponse({'message': 'surficuly'}, status=200)
