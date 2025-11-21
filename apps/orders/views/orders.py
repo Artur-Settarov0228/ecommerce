@@ -71,6 +71,8 @@ class OrderDetailView(View):
     def get(self, request: HttpRequest, pk: int) -> JsonResponse:
         pass
 
+        
+
     def put(self, request: HttpRequest, pk: int) -> JsonResponse:
         pass
     
