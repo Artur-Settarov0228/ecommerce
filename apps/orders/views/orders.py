@@ -21,15 +21,6 @@ class OrderListView(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         data = json.loads(request.body) if request.body else {}
 
-        {
-            "customer": 1,
-            "shipping_address": "123 Main St",
-            "items": [
-                {"product_id": 1, "quantity": 2},
-                {"product_id": 5, "quantity": 1}
-            ]
-        }
-
         customer = data.get('customer')
         if customer:
             user = get_object_or_404(User, pk=customer)
